@@ -45,7 +45,7 @@ npm run build
 yarn build
 ```
 
-
+![UML Shema](https://github.com/Alexandr-Prokhorenkov/web-larek-frontend/blob/main/webLarek.jpg)
 
 ## Данные и типы данных, используемые в приложении
 
