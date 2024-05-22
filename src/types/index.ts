@@ -24,12 +24,6 @@ export interface PageComponent {
 
 //Интерфейс для списка карточек товаров
 
-export interface ProductListComponent {
-  items: CardComponent[];
-}
-
-//Интерфейс для одной карточки товара
-
 export interface CardComponent {
   id: string;
   description: string
@@ -39,10 +33,17 @@ export interface CardComponent {
   price: number | null;
 }
 
+//Интерфейс для одной карточки товара
+
+export interface ProductListComponent {
+  items: CardComponent[];
+}
+
+
 //Интерфейс корзины товаров
 
 export interface BasketComponent {
-  basketItems: IBasket
+  basketItems: IOrder
   render(): void
   remove(): void
   clear(): void
@@ -51,7 +52,7 @@ export interface BasketComponent {
 //Интерфейс показа количества товаров в корзине на главной странице
 
 export interface BasketPreviewComponent {
-  quanity: number
+  basketCounter: HTMLElement
   render(): void
 }
 
@@ -62,12 +63,14 @@ export interface DeliveryFormComponent {
   deliveryAdress:string;
 }
 
+
 //Интерфейс модального окна контактов покупателя
 
 export interface ContactFormComponent {
   email:string
   phone: string
 }
+
 
 
 //Интерфейс моадльного окна успешного завершения покупки 
