@@ -42,7 +42,7 @@ export interface CardComponent {
 //Интерфейс корзины товаров
 
 export interface BasketComponent {
-  basketItems: IOrder
+  basketItems: IBasket
   render(): void
   remove(): void
   clear(): void
@@ -77,10 +77,20 @@ export interface SuccessComponent {
 }
 
 
-//Интерфейс описывающий поля заказа товара
-export interface IOrder {
-  id: string
+//Интерфейс описывающий корзину
+export interface IBasket {
   total:number
+  items: CardComponent[]
+}
+
+
+//Интерфейс описывающий данные для отправки заказа на сервер
+export interface IOrder {
+  payment: TPayment;
+  email: string;
+  phone: string;
+  address: string;
+  total: number
   items: CardComponent[]
 }
 
@@ -114,7 +124,7 @@ export interface OrderRequestModel {
 
 export interface AppState {
   cardCatalog: CardComponent[];
-  basket: IOrder;
+  basket: IBasket;
   order:OrderResponseModel
   formError: IFormError;
   setCardCatalog(items:CardComponent[]):void;
