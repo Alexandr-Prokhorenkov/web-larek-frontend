@@ -441,8 +441,8 @@ export interface IOrderService {
 — `events: IEvents` — объект для работы с событиями
 
 методы:\
-— `set descriptionj(value: string): void` — рендер превью карточки\
-
+— `set description(value: string): void` — рендер превью карточки\
+— `addItemToBasket(value: string): void` — рендер превью карточки\
 
 #### class CardBasket
 
@@ -485,7 +485,6 @@ export interface IOrderService {
 
 методы:\
 — `set items(items: HTMLElement[]): void` — Обновляет список товаров в корзине
-— `removeCardFromBasket(item:)`
 — `renderHeaderBasketCounter(value: number): void` — установка значения суммы товаров
 — `renderSumAllProducts(sumAll: number)` — Обновляет текстовое содержимое общей стоимости товаров в корзине
 
@@ -495,11 +494,13 @@ export interface IOrderService {
 Наследует класс BaseForm с интерфейсом formData: DeliveryFormComponent\
 Создает элемент формы для модального окна доствки\
 поля:\
-— `buttons: HTMLButtonElement[]` — хранит разметку кнопок формы оплаты\
-— `deliveryAdress` — поле ввода адреса доставки\
+— `formDelivery: HTMLFormElement` — HTML-элемент формы заказа, клонированный из переданного шаблона.
+— `buttonAll: HTMLButtonElement[]` — Массив всех кнопок выбора способа оплаты
+— `buttonSubmit: HTMLButtonElement` — Кнопка отправки формы заказа.
+— `formErrors: HTMLElement` — Элемент для отображения ошибок формы.
 
 Конструктор принимает аргументы:
-— `container: HTMLFormElement` — форма 
+— `template: HTMLTemplateElement` — темплейт с формой
 — `events: IEvents` — объект для работы с событиями
 
 методы:\
@@ -511,9 +512,13 @@ export interface IOrderService {
 Наследует класс BaseForm с интерфейсом formData: IContactForm\
 Создает элемент формы для модального окна контактов покупателя\
 поля:\
+  — `formContacts: HTMLFormElement` — HTML-элемент формы контактов, клонированный из переданного шаблона.
+  — `inputAll: HTMLInputElement[]` — Массив всех полей ввода
+  — `buttonSubmit: HTMLButtonElement` — Кнопка отправки формы.
+  — `formErrors: HTMLElement` — Элемент для отображения ошибок формы.
 
 Конструктор принимает аргументы:
-— `container: HTMLFormElement` — 
+— `template: HTMLTemplateElement` — темплейт с формой 
 — `events: IEvents` — объект для работы с событиями
 
 методы:\

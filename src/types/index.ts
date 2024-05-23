@@ -7,83 +7,94 @@ export type CategoryType = 'другое' | 'софт-скил' | 'дополн�
 //Интерфейс модального окна
 
 export interface ModalComponent {
-  content: string
+  closeButton:HTMLButtonElement
+  content:HTMLElement
   open(): void
   close(): void
+  setcontent(): void
   render():void
 }
 
 //Интерфейс для размещения контента
 
 export interface PageComponent {
-  catalog: string
-  basket: string
-  basketCounter: number
+  catalog: HTMLElement
+  basket: HTMLElement
+  basketCounter: HTMLElement
   render(): void
 }
 
 //Интерфейс для списка карточек товаров
 
-export interface CardComponent {
-  id: string;
-  description: string
-  image: string;
-  title: string;
-  category: CategoryType;
-  price: number | null;
+export interface CardsListComponent {
+  category: HTMLElement
+  title: HTMLElement
+  image: HTMLElement
+  totalPrice: HTMLElement
 }
 
 //Интерфейс для одной карточки товара
 
-export interface ProductListComponent {
-  items: CardComponent[];
+export interface CardComponent extends CardsListComponent {
+  description: HTMLElement
+  button: HTMLElement
 }
-
 
 //Интерфейс корзины товаров
 
 export interface BasketComponent {
-  basketItems: IOrder
+  basketList: HTMLElement
+  title: HTMLElement
+  total:HTMLElement
+  button:HTMLButtonElement
+  container: HTMLElement  
   render(): void
   remove(): void
   clear(): void
 }
 
-//Интерфейс показа количества товаров в корзине на главной странице
-
-export interface BasketPreviewComponent {
-  basketCounter: HTMLElement
-  render(): void
-}
 
 //Интерфейс модального окна доставки
 
 export interface DeliveryFormComponent {
-  payment: TPayment
-  deliveryAdress:string;
+  formDelivery: HTMLFormElement;
+  buttonAll: HTMLButtonElement[];
+  paymentSelection: String;
+  formErrors: HTMLElement;
+  render(): HTMLElement;
 }
-
 
 //Интерфейс модального окна контактов покупателя
 
 export interface ContactFormComponent {
-  email:string
-  phone: string
+ formContacts: HTMLFormElement;
+  inputAll: HTMLInputElement[];
+  buttonSubmit: HTMLButtonElement;
+  formErrors: HTMLElement;
+  render(): HTMLElement;
 }
-
 
 
 //Интерфейс моадльного окна успешного завершения покупки 
 export interface SuccessComponent {
-  isSuccess: boolean
-  render(): void
+  total: HTMLElement
+  container: HTMLElement
 }
 
+
+export interface IProductItem {
+  id: string;
+  description: string;
+  image: string;
+  title: string;
+  category: string;
+  price: number | null;
+}
 
 //Интерфейс описывающий корзину
 export interface IBasket {
   total:number
-  items: CardComponent[]
+  items: IProductItem[]
 }
 
 
@@ -94,7 +105,7 @@ export interface IOrder {
   phone: string;
   address: string;
   total: number
-  items: CardComponent[]
+  items: IProductItem[]
 }
 
 //Интерфейс ошибок заполнения формы
