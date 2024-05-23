@@ -82,6 +82,7 @@ export interface SuccessComponent {
 }
 
 
+//Интерфейс описывающий данные карточки
 export interface IProductItem {
   id: string;
   description: string;
@@ -97,19 +98,19 @@ export interface IBasket {
   items: IProductItem[]
 }
 
+//Интерфейс данных формы доставки
+export interface IDeliveryForm {
+   payment: TPayment
+   deliveryAdress:string;
+}
 
-//Интерфейс описывающий данные для отправки заказа на сервер
-export interface IOrder {
-  payment: TPayment;
-  email: string;
-  phone: string;
-  address: string;
-  total: number
-  items: IProductItem[]
+//Интерфейс данных формы контактов
+export interface IContactForm {
+    email:string
+    phone: string
 }
 
 //Интерфейс ошибок заполнения формы
-
 export interface IFormError {
   payment?: TPayment;
   email?: string;
@@ -137,15 +138,15 @@ export interface OrderRequestModel {
 // Интерфейс данных приложения
 
 export interface AppState {
-  cardCatalog: CardComponent[];
+  Products: IProductItem[];
   basket: IBasket;
   order:OrderResponseModel
   formError: IFormError;
-  setCardCatalog(items:CardComponent[]):void;
-  addItemToBasket(item:CardComponent):void;
+  setCardCatalog(items:IProductItem[]):void;
+  addItemToBasket(item:IProductItem):void;
   removeFromBasket(id:string):void;
   clearBasket(): void;
-  getBasketList():CardComponent[];
+  getBasketList():IProductItem[];
   getTotalPrice():number;
   getBasketQuantity(): number;
   setOrderInfo():OrderRequestModel
@@ -172,12 +173,11 @@ export interface IOrderApi {
   orderProducts: (order:OrderRequestModel) => Promise<OrderResponseModel>
 }
 
-
 // Интерфейс для получения данных от Апи, служит посредником между слоем отображения и слоем данных
 export interface IProductService {
-  getList: () => Promise<CardComponent[]>
-  getItem: () => Promise<CardComponent>
-  addItemToBasket(item:CardComponent):void;
+  getList: () => Promise<IProductItem[]>
+  getItem: () => Promise<IProductItem>
+  addItemToBasket(item:IProductItem):void;
 }
 
 // Интерфейс для получения данных от Форм и корзины, служит посредником между слоем отображения и слоем данных
@@ -186,7 +186,7 @@ export interface IOrderService {
   addDelivery(): void
   addContacts():void
   getBasket(): string[]
-  getDelivery(): DeliveryFormComponent
-  getContacts(): ContactFormComponent
+  getDelivery(): IDeliveryForm
+  getContacts(): IContactForm
   request(): OrderResponseModel
 }
