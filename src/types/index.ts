@@ -3,86 +3,7 @@ export type TPayment = 'Online' | 'Receipt';
 export type CategoryType = 'другое' | 'софт-скил' | 'дополнительное' | 'кнопка' | 'хард-скил';
 
 
-
-//Интерфейс модального окна
-
-export interface ModalComponent {
-  closeButton:HTMLButtonElement
-  content:HTMLElement
-  open(): void
-  close(): void
-  setcontent(): void
-  render():void
-}
-
-//Интерфейс для размещения контента
-
-export interface PageComponent {
-  catalog: HTMLElement
-  basket: HTMLElement
-  basketCounter: HTMLElement
-  render(): void
-}
-
-//Интерфейс для списка карточек товаров
-
-export interface CardsListComponent {
-  category: HTMLElement
-  title: HTMLElement
-  image: HTMLElement
-  totalPrice: HTMLElement
-}
-
-//Интерфейс для одной карточки товара
-
-export interface CardComponent extends CardsListComponent {
-  description: HTMLElement
-  button: HTMLElement
-}
-
-//Интерфейс корзины товаров
-
-export interface BasketComponent {
-  basketList: HTMLElement
-  title: HTMLElement
-  total:HTMLElement
-  button:HTMLButtonElement
-  container: HTMLElement  
-  render(): void
-  remove(): void
-  clear(): void
-}
-
-
-//Интерфейс модального окна доставки
-
-export interface DeliveryFormComponent {
-  formDelivery: HTMLFormElement;
-  buttonAll: HTMLButtonElement[];
-  paymentSelection: String;
-  formErrors: HTMLElement;
-  render(): HTMLElement;
-}
-
-//Интерфейс модального окна контактов покупателя
-
-export interface ContactFormComponent {
- formContacts: HTMLFormElement;
-  inputAll: HTMLInputElement[];
-  buttonSubmit: HTMLButtonElement;
-  formErrors: HTMLElement;
-  render(): HTMLElement;
-}
-
-
-//Интерфейс моадльного окна успешного завершения покупки 
-export interface SuccessComponent {
-  total: HTMLElement
-  container: HTMLElement
-}
-
-
-//Интерфейс описывающий данные карточки
+//Интерфейс описывающий данные карточки 
 export interface IProductItem {
   id: string;
   description: string;
@@ -90,29 +11,44 @@ export interface IProductItem {
   title: string;
   category: string;
   price: number | null;
+  selected: boolean
 }
 
-//Интерфейс описывающий корзину
-export interface IBasket {
-  total:number
-  items: IProductItem[]
+//Интерфейс карточек добавленых в корзину
+export interface ICardBasket {
+	index: number;
+	title: string;
+	price: string | null;
 }
 
-//Интерфейс данных формы доставки
-export interface IDeliveryForm {
-   payment: TPayment
-   deliveryAdress:string;
+//Интерфейс событий
+export interface IActions {
+	onClick: (event: MouseEvent) => void;
 }
 
-//Интерфейс данных формы контактов
-export interface IContactForm {
-    email:string
-    phone: string
-}
-
-//Интерфейс ошибок заполнения формы
-export interface IFormError {
+//интерфейс для данных форм 
+export interface IOrderForm {
   payment?: TPayment;
+  address?: string;
+  email?: string;
+  phone?: string;
+  total?: string | number;
+}
+
+//интерфейс данных заказа для AppState
+export interface IOrder extends IOrderForm {
+  items: string[];
+}
+
+//то что мы отправляем на сервер заказ
+export interface OrderRequestModel extends IOrderForm {
+  items: string[];
+  total: number
+}
+
+//Интерфейс ошибок заполнения формы !
+export interface IFormError {
+  payment?: string;
   email?: string;
   phone?: string;
   address?: string;
@@ -124,69 +60,19 @@ export interface OrderResponseModel {
   total: number
 }
 
-//то что мы отправляем на сервер заказ
-export interface OrderRequestModel {
-  payment: TPayment;
-  email: string;
-  phone: string;
-  address: string;
-  total: number;
-  items: string[];
-}
-
-
-// Интерфейс данных приложения
-
-export interface AppState {
-  Products: IProductItem[];
-  basket: IBasket;
-  order:OrderResponseModel
-  formError: IFormError;
-  setCardCatalog(items:IProductItem[]):void;
+// Интерфейс данных приложения 
+export interface IAppState {
+  setCatalog(items:IProductItem[]):void;
+  getCatalog(): IProductItem[];
+  getProduct(id:number): IProductItem;
   addItemToBasket(item:IProductItem):void;
   removeFromBasket(id:string):void;
   clearBasket(): void;
-  getBasketList():IProductItem[];
   getTotalPrice():number;
   getBasketQuantity(): number;
-  setOrderInfo():OrderRequestModel
-  ValidateDeliveryForm(): boolean;
-  ValidateDataForm(): boolean;
+  getBasketList():IProductItem[];
+  setOrderField(field: keyof IOrderForm, value: string): void;
+  validateOrder(): boolean;
   clearOrder(): void;
 }
 
-//Интерфейс для метода рендер
-
-export interface IRenderable { render: () => HTMLElement}
-
-//Интерфейс для получения списка карточек товаров
-
-export interface ProcuctApi {
-  cdn: string
-  getProductCardsList: () => Promise<CardComponent[]>
-}
-
-//Интерфейс для отправки заказа на сервер
-
-export interface IOrderApi {
-  cdn: string
-  orderProducts: (order:OrderRequestModel) => Promise<OrderResponseModel>
-}
-
-// Интерфейс для получения данных от Апи, служит посредником между слоем отображения и слоем данных
-export interface IProductService {
-  getList: () => Promise<IProductItem[]>
-  getItem: () => Promise<IProductItem>
-  addItemToBasket(item:IProductItem):void;
-}
-
-// Интерфейс для получения данных от Форм и корзины, служит посредником между слоем отображения и слоем данных
-export interface IOrderService {
-  addBasket():void
-  addDelivery(): void
-  addContacts():void
-  getBasket(): string[]
-  getDelivery(): IDeliveryForm
-  getContacts(): IContactForm
-  request(): OrderResponseModel
-}
