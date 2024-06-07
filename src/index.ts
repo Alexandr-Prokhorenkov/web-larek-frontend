@@ -1,6 +1,5 @@
 import './scss/styles.scss';
 
-import './scss/styles.scss';
 import { API_URL, CDN_URL } from './utils/constants';
 import { OrderApi, ProductApi } from './components/ApiService';
 import { cloneTemplate, ensureElement } from './utils/utils';
