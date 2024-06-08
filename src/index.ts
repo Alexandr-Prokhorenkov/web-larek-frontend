@@ -1,10 +1,10 @@
 import './scss/styles.scss';
-
+import { ApiListResponse } from './components/base/Api'
 import { API_URL, CDN_URL } from './utils/constants';
 import { OrderApi, ProductApi } from './components/ApiService';
 import { cloneTemplate, ensureElement } from './utils/utils';
 import { IOrderForm, OrderRequestModel} from './types/index';
-import { EventEmitter } from './components/base/events';
+import { EventEmitter } from './components/base/Events';
 import { AppState, Product } from './components/model/AppState';
 import { Page } from './components/view/Page';
 import { Modal } from './components/view/Modal';
@@ -12,7 +12,6 @@ import { Card, CardPreview } from './components/view/Card';
 import { CardBasket, Basket } from './components/view/Basket';
 import { FormOrder } from './components/view/FormOrder';
 import { FormContacts } from './components/view/FormContacts';
-import { ApiListResponse } from './components/base/api';
 import { Success } from './components/view/Success'
 
 // Все шаблоны
@@ -113,6 +112,12 @@ events.on('basket:open', () => {
 		cardBasket.price = item.price;
 		return cardBasketElement;
 	});
+	if(basketArray.length===0) {
+		basket.disableButton()
+	}
+	else {
+		basket.undisableButton()
+	}
 	basket.items = cardBasketElements;
 	basket.totalPrice = basketArray.reduce(
 		(total, item) => total + (item.price || 0),
