@@ -1,7 +1,7 @@
 import { Component } from '../base/Component';
 import { ensureElement } from '../../utils/utils';
 import { CategoryType, IProductItem } from '../../types/index';
-import { IEvents } from '../base/events';
+import { IEvents } from '../base/Events';
 
 export interface IActions {
 	onClick: (event: MouseEvent) => void;
@@ -63,8 +63,8 @@ export class Card extends Component<IProductItem> {
 
 	set price(value: number | null) {
 		this._priceValue = value;
-		this._price.textContent =
-			value !== null ? value.toString() + ' синапсов' : 'Бесценно';
+		const priceText = value !== null ? value.toString() + ' синапсов' : 'Бесценно';
+		this.setText(this._price, priceText)
 	}
 
 	get price(): number | null {
@@ -116,11 +116,11 @@ export class CardPreview extends Card {
 	}
 
 	set selected(value: boolean) {
-		this._button.disabled = value;
+		this.setDisabled(this._button, value)
 	}
 
 	set description(value: string) {
-		this._description.textContent = value;
+		this.setText(this._description, value)
 	}
 
 	get description() {

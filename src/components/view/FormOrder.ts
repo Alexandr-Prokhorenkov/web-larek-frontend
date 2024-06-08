@@ -1,5 +1,5 @@
 import { IOrderForm } from '../../types';
-import { IEvents } from '../base/events';
+import { IEvents } from '../base/Events';
 import { Form } from './Form';
 
 export interface PaymentChangeEventDetail {
@@ -26,12 +26,13 @@ export class FormOrder extends Form<IOrderForm> {
 
 	private toggleActiveButton(button: 'online' | 'recipt') {
 		if (button === 'online') {
-			this.online.classList.add('button_alt-active');
-			this.recipt.classList.remove('button_alt-active');
+			this.toggleClass(this.online, 'button_alt-active', true);
+			this.toggleClass(this.recipt, 'button_alt-active', false);
 		} else {
-			this.online.classList.remove('button_alt-active');
-			this.recipt.classList.add('button_alt-active');
+			this.toggleClass(this.online, 'button_alt-active', false);
+			this.toggleClass(this.recipt, 'button_alt-active', true);
 		}
+
 
 		this.events.emit<PaymentChangeEventDetail>('payment:change', { button });
 	}
@@ -42,7 +43,7 @@ export class FormOrder extends Form<IOrderForm> {
 	}
 
 	disableButtons() {
-		this.online.classList.remove('button_alt-active');
-		this.recipt.classList.remove('button_alt-active');
+		this.toggleClass(this.online, 'button_alt-active', false);
+		this.toggleClass(this.recipt, 'button_alt-active', false);
 	}
 }

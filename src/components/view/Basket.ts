@@ -1,8 +1,7 @@
 import { Component } from '../base/Component';
 import { ensureElement, createElement, formatNumber } from '../../utils/utils';
-import { EventEmitter } from '../base/events';
-import { ICardBasket, IActions } from '../../types/index'
-
+import { EventEmitter } from '../base/Events';
+import { ICardBasket, IActions } from '../../types/index';
 
 export class CardBasket extends Component<ICardBasket> {
 	protected _title: HTMLElement;
@@ -38,14 +37,15 @@ export class CardBasket extends Component<ICardBasket> {
 	}
 
 	set index(value: number) {
-		this._index.textContent = value.toString();
+		this.setText(this._index, value.toString());
 	}
 
 	set title(value: string) {
-		this._title.textContent = value;
+		this.setText(this._title, value);
 	}
 	set price(value: number | null) {
-		this._price.textContent = value !== null ? value.toString() : 'Бесценно';
+		const priceText = value !== null ? value.toString() : 'Бесценно';
+		this.setText(this._price, priceText);
 	}
 
 	set id(id: string) {
@@ -102,6 +102,14 @@ export class Basket extends Component<IBasket> {
 		} else {
 			this.setDisabled(this.button, true);
 		}
+	}
+
+	disableButton() {
+		this.setDisabled(this.button, true);
+	}
+
+	undisableButton() {
+		this.setDisabled(this.button, false);
 	}
 
 	set totalPrice(total: number) {
